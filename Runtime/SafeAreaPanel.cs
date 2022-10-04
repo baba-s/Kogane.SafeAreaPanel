@@ -1,16 +1,16 @@
 ﻿using System;
 using UnityEngine;
 
-namespace Kogane.Internal
+namespace Kogane
 {
     // https://trs-game-techblog.info/entry/ugui-safearea/
     [DisallowMultipleComponent]
     [ExecuteAlways]
     [RequireComponent( typeof( RectTransform ) )]
-    internal sealed class SafeAreaPanel : MonoBehaviour
+    public sealed class SafeAreaPanel : MonoBehaviour
     {
         [Serializable]
-        private struct Margin
+        public struct Margin
         {
             [SerializeField] private float m_left;
             [SerializeField] private float m_top;
@@ -21,10 +21,24 @@ namespace Kogane.Internal
             public float Top    => m_top;
             public float Right  => m_right;
             public float Bottom => m_bottom;
+
+            public Margin
+            (
+                float left,
+                float top,
+                float right,
+                float bottom
+            )
+            {
+                m_left   = left;
+                m_top    = top;
+                m_right  = right;
+                m_bottom = bottom;
+            }
         }
 
         [Flags]
-        private enum Edge
+        public enum Edge
         {
             [InspectorName( "Left" )]   LEFT   = 1 << 1,
             [InspectorName( "Right" )]  RIGHT  = 1 << 2,
@@ -44,6 +58,42 @@ namespace Kogane.Internal
         private DrivenRectTransformTracker m_drivenRectTransformTracker;
         private bool                       m_isUpdate;
 #endif
+
+        public Edge ControlEdges
+        {
+            get => m_controlEdges;
+            set
+            {
+                m_controlEdges = value;
+#if UNITY_EDITOR
+                m_isUpdate = true;
+#endif
+            }
+        }
+
+        public bool IsDisabledExecuteAlways
+        {
+            get => m_isDisabledExecuteAlways;
+            set
+            {
+                m_isDisabledExecuteAlways = value;
+#if UNITY_EDITOR
+                m_isUpdate = true;
+#endif
+            }
+        }
+
+        public Margin MinimumMargin
+        {
+            get => m_minimumMargin;
+            set
+            {
+                m_minimumMargin = value;
+#if UNITY_EDITOR
+                m_isUpdate = true;
+#endif
+            }
+        }
 
         private void OnEnable()
         {
