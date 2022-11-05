@@ -40,10 +40,10 @@ namespace Kogane
         [Flags]
         public enum Edge
         {
-            [InspectorName( "Left" )]   LEFT   = 1 << 1,
-            [InspectorName( "Right" )]  RIGHT  = 1 << 2,
-            [InspectorName( "Top" )]    TOP    = 1 << 3,
-            [InspectorName( "Bottom" )] BOTTOM = 1 << 4,
+            [InspectorName( "Left" )]   LEFT   = 1,
+            [InspectorName( "Right" )]  RIGHT  = 2,
+            [InspectorName( "Top" )]    TOP    = 4,
+            [InspectorName( "Bottom" )] BOTTOM = 8,
         }
 
         [SerializeField] private Edge   m_controlEdges = ( Edge )~0;
